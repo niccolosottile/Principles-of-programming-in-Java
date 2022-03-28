@@ -6,7 +6,7 @@ package question_1;
 * This should not be modified by the student.
 * 
 * @author		Christopher Clarke
-* @version		1.0	
+* @version		1.0
 */
 public interface Cipher {
 	
