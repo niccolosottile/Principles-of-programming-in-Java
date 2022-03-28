@@ -1,3 +1,5 @@
+// Question open: if the key is made up of non letter characters what to do
+
 package question_1;
 
 // Importing useful packages
@@ -58,7 +60,7 @@ public class VigenereCipher implements Cipher {
             String key = "";
 
             while((key = key_reader.readLine()) != null){
-                full_key = full_key.concat(key);
+                full_key = full_key.concat(key.toUpperCase());
             }
 
         } catch(IOException e){
@@ -79,12 +81,9 @@ public class VigenereCipher implements Cipher {
                 // If char is a letter, change it
                 if(Character.isLetter(message_char)){
 
-                    // Convert char to uppercase
-                    message_char = Character.toUpperCase(message_char);
-
                     // Calculate values for alphabet cipher lookup
                     int i = indexOf(uppercase_alphabet, full_key.charAt(pointer));
-                    int j = indexOf(uppercase_alphabet, message_char);
+                    int j = indexOf(uppercase_alphabet, Character.toUpperCase(message_char));
 
                     encrypted_message += this.vigenere_table[i][j];
                 } else{
@@ -119,7 +118,7 @@ public class VigenereCipher implements Cipher {
             String key = "";
 
             while((key = key_reader.readLine()) != null){
-                full_key = full_key.concat(key);
+                full_key = full_key.concat(key.toUpperCase());
             }
 
         } catch(IOException e){
@@ -140,15 +139,12 @@ public class VigenereCipher implements Cipher {
                 // If char is a letter, change it
                 if(Character.isLetter(message_char)){
 
-                    // Convert char to uppercase
-                    message_char = Character.toUpperCase(message_char);
-
                     // Calculate values for backwards alphabet cipher lookup
                     int i = indexOf(uppercase_alphabet, full_key.charAt(pointer));
                     
                     int j = 0;
                     while(true){
-                        if(this.vigenere_table[i][j] == message_char){
+                        if(this.vigenere_table[i][j] == Character.toUpperCase(message_char)){
                             break;
                         }
                         j++;
