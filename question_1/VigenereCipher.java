@@ -1,5 +1,3 @@
-// Question open: if the key is made up of non letter characters what to do
-
 package question_1;
 
 // Importing useful packages
@@ -78,8 +76,8 @@ public class VigenereCipher implements Cipher {
             while(messageReader.ready()){
                 messageChar = (char) messageReader.read();
 
-                // If char is a letter, change it
-                if(Character.isLetter(messageChar)){
+                // If char and key char is a letter, change it
+                if(Character.isLetter(messageChar) && Character.isLetter(fullKey.charAt(pointer))){
 
                     // Calculate values for alphabet cipher lookup
                     int i = indexOf(uppercaseAlphabet, fullKey.charAt(pointer));
@@ -88,7 +86,7 @@ public class VigenereCipher implements Cipher {
                     encryptedMessage += this.vigenereTable[i][j];
                 } else{
 
-                    encryptedMessage += messageChar;
+                    encryptedMessage += Character.toUpperCase(messageChar);
 
                 }
 
@@ -136,8 +134,8 @@ public class VigenereCipher implements Cipher {
             while(messageReader.ready()){
                 messageChar = (char) messageReader.read();
 
-                // If char is a letter, change it
-                if(Character.isLetter(messageChar)){
+                // If char and key char is a letter, change it
+                if(Character.isLetter(messageChar) && Character.isLetter(fullKey.charAt(pointer))){
 
                     // Calculate values for backwards alphabet cipher lookup
                     int i = indexOf(uppercaseAlphabet, fullKey.charAt(pointer));
@@ -153,7 +151,7 @@ public class VigenereCipher implements Cipher {
                     decryptedMessage += this.vigenereTable[0][j];
                 } else{
 
-                    decryptedMessage += messageChar;
+                    decryptedMessage += Character.toUpperCase(messageChar);
 
                 }
 
