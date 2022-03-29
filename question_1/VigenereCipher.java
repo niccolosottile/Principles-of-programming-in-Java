@@ -45,7 +45,7 @@ public class VigenereCipher implements Cipher {
 
             }
 
-            pointer ++;
+            pointer++;
         }
     }
 
@@ -96,7 +96,7 @@ public class VigenereCipher implements Cipher {
                 if(pointer == fullKey.length() - 1){
                     pointer = 0;
                 } else{
-                    pointer ++;
+                    pointer++;
                 }
             }
 
@@ -161,7 +161,7 @@ public class VigenereCipher implements Cipher {
                 if(pointer == fullKey.length() - 1){
                     pointer = 0;
                 } else{
-                    pointer ++;
+                    pointer++;
                 }
             }
 

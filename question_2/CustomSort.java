@@ -17,11 +17,46 @@ public class CustomSort implements SortingInterface {
         sort();
     }
 
+    // Method calculates the power of an int
+    private int pow(int n, int p){
+        
+        while(p != 1){
+
+            n = n * n;
+
+            p--;
+        }
+
+        return n;
+    }
+
     // PRIORITY
 	@Override
 	public ArrayList<Integer> getGaps(){
 
+        // FOLLOWED THE PSEDUCODE
+
+        ArrayList<Integer> temp = new ArrayList<Integer>();
         ArrayList<Integer> gaps = new ArrayList<Integer>();
+
+        int n = this.customSorted.size();
+
+        int gap = 1, i = 2;
+
+        while(gap < n){
+
+            temp.add(gap);
+
+            gap = pow(2, i) - 1;
+
+            i++;
+        }
+
+        for(i = (temp.size() - 1); i >= 0; i--){
+
+            gaps.add(temp.get(i));
+
+        }
 
         return gaps;
     }
@@ -101,6 +136,10 @@ public class CustomSort implements SortingInterface {
     // PRIORITY
     @Override
 	public void sort(){
+
+        // FOLLOWED THE PSEDUCODE
+
         
+
     }
 }
