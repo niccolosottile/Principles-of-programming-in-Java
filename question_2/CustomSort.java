@@ -139,7 +139,58 @@ public class CustomSort implements SortingInterface {
 
         // FOLLOWED THE PSEDUCODE
 
-        
+        int n = this.customSorted.size();
+        ArrayList<Integer> gaps = getGaps();
+
+        for(int q = 0; q < gaps.size(); q++){
+
+            for(int i = gaps.get(q); i < n; i++){
+
+                double temp = this.customSorted.get(i);
+
+                int j = 0;
+
+                for(j = i; j <= gaps.get(q); j -= gaps.get(q)){
+
+                    if(this.customSorted.get(j - gaps.get(q)) <= temp){
+                        break;
+                    }
+
+                    this.customSorted.set(j, this.customSorted.get(j - gaps.get(q)));
+
+                }
+
+                this.customSorted.set(j, temp);
+            }
+        }
+    }
+
+    public void printAll(){
+
+        for(int i = 0; i < this.customSorted.size(); i++){
+            System.out.print(this.customSorted.get(i) + " ");
+        }
+
+        System.out.println("");
 
     }
+
+    public static void main(String[] args) {
+
+        CustomSort gapSort = new CustomSort();
+
+        ArrayList<Double> values = new ArrayList<Double>();
+
+        values.add(13.9);
+        values.add(2.3);
+        values.add(4.3);
+        values.add(9.2);
+        values.add(5.1);
+
+        gapSort.setValues(values);
+
+        gapSort.printAll();
+
+    }
+
 }
