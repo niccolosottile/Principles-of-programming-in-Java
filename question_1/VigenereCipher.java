@@ -19,14 +19,14 @@ public class VigenereCipher implements Cipher {
     }
 
     // Storing the uppercase alphabet in an array
-    private char[] uppercase_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+    private char[] uppercaseAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 
     // Creating the cipher alphabet in a 2D array
-    private char [][] vigenere_table;
+    private char [][] vigenereTable;
 
     public VigenereCipher () {
 
-        this.vigenere_table = new char [26][26];
+        this.vigenereTable = new char [26][26];
 
         int pointer = 0; // Pointer to starting letter in row
 
@@ -38,9 +38,9 @@ public class VigenereCipher implements Cipher {
 
                 // Each letter is given by the starting letter in the row shifted by the column position
                 if(pointer + j <= 25){
-                    this.vigenere_table[i][j] = uppercase_alphabet[pointer + j];
+                    this.vigenereTable[i][j] = uppercaseAlphabet[pointer + j];
                 } else{
-                    this.vigenere_table[i][j] = uppercase_alphabet[(pointer + j) - 26];
+                    this.vigenereTable[i][j] = uppercaseAlphabet[(pointer + j) - 26];
                 }
 
             }
@@ -53,47 +53,47 @@ public class VigenereCipher implements Cipher {
     public String encrypt(String message_filename, String key_filename){
 
         // Creating buffered reader to read key from key file line by line
-        String full_key = "";
+        String fullKey = "";
 
-        try(BufferedReader key_reader = new BufferedReader(new FileReader(key_filename))){
+        try(BufferedReader keyReader = new BufferedReader(new FileReader(key_filename))){
 
             String key = "";
 
-            while((key = key_reader.readLine()) != null){
-                full_key = full_key.concat(key.toUpperCase());
+            while((key = keyReader.readLine()) != null){
+                fullKey = fullKey.concat(key.toUpperCase());
             }
 
         } catch(IOException e){
             e.printStackTrace();
         }
 
-        String encrypted_message = "";
+        String encryptedMessage = "";
 
         // Creating buffered reader to read message from message file char by char
-        try(BufferedReader message_reader = new BufferedReader(new FileReader(message_filename))){
+        try(BufferedReader messageReader = new BufferedReader(new FileReader(message_filename))){
 
-            char message_char;
+            char messageChar;
             int pointer = 0; // Pointer used to keep track of current letter in key
 
-            while(message_reader.ready()){
-                message_char = (char) message_reader.read();
+            while(messageReader.ready()){
+                messageChar = (char) messageReader.read();
 
                 // If char is a letter, change it
-                if(Character.isLetter(message_char)){
+                if(Character.isLetter(messageChar)){
 
                     // Calculate values for alphabet cipher lookup
-                    int i = indexOf(uppercase_alphabet, full_key.charAt(pointer));
-                    int j = indexOf(uppercase_alphabet, Character.toUpperCase(message_char));
+                    int i = indexOf(uppercaseAlphabet, fullKey.charAt(pointer));
+                    int j = indexOf(uppercaseAlphabet, Character.toUpperCase(messageChar));
 
-                    encrypted_message += this.vigenere_table[i][j];
+                    encryptedMessage += this.vigenereTable[i][j];
                 } else{
 
-                    encrypted_message += message_char;
+                    encryptedMessage += messageChar;
 
                 }
 
                 // Set pointer back to beginning of key if at the end, else increment
-                if(pointer == full_key.length() - 1){
+                if(pointer == fullKey.length() - 1){
                     pointer = 0;
                 } else{
                     pointer ++;
@@ -104,61 +104,61 @@ public class VigenereCipher implements Cipher {
             e.printStackTrace();
         }
         
-        return encrypted_message;
+        return encryptedMessage;
 
     }
 
     @Override
     public String decrypt(String message_filename, String key_filename){
         // Creating buffered reader to read key from key file line by line
-        String full_key = "";
+        String fullKey = "";
 
-        try(BufferedReader key_reader = new BufferedReader(new FileReader(key_filename))){
+        try(BufferedReader keyReader = new BufferedReader(new FileReader(key_filename))){
 
             String key = "";
 
-            while((key = key_reader.readLine()) != null){
-                full_key = full_key.concat(key.toUpperCase());
+            while((key = keyReader.readLine()) != null){
+                fullKey = fullKey.concat(key.toUpperCase());
             }
 
         } catch(IOException e){
             e.printStackTrace();
         }
 
-        String decrypted_message = "";
+        String decryptedMessage = "";
 
         // Creating buffered reader to read message from message file char by char
-        try(BufferedReader message_reader = new BufferedReader(new FileReader(message_filename))){
+        try(BufferedReader messageReader = new BufferedReader(new FileReader(message_filename))){
 
-            char message_char;
+            char messageChar;
             int pointer = 0; // Pointer used to keep track of current letter in key
 
-            while(message_reader.ready()){
-                message_char = (char) message_reader.read();
+            while(messageReader.ready()){
+                messageChar = (char) messageReader.read();
 
                 // If char is a letter, change it
-                if(Character.isLetter(message_char)){
+                if(Character.isLetter(messageChar)){
 
                     // Calculate values for backwards alphabet cipher lookup
-                    int i = indexOf(uppercase_alphabet, full_key.charAt(pointer));
+                    int i = indexOf(uppercaseAlphabet, fullKey.charAt(pointer));
                     
                     int j = 0;
                     while(true){
-                        if(this.vigenere_table[i][j] == Character.toUpperCase(message_char)){
+                        if(this.vigenereTable[i][j] == Character.toUpperCase(messageChar)){
                             break;
                         }
                         j++;
                     }
 
-                    decrypted_message += this.vigenere_table[0][j];
+                    decryptedMessage += this.vigenereTable[0][j];
                 } else{
 
-                    decrypted_message += message_char;
+                    decryptedMessage += messageChar;
 
                 }
 
                 // Set pointer back to beginning of key if at the end, else increment
-                if(pointer == full_key.length() - 1){
+                if(pointer == fullKey.length() - 1){
                     pointer = 0;
                 } else{
                     pointer ++;
@@ -169,7 +169,7 @@ public class VigenereCipher implements Cipher {
             e.printStackTrace();
         }
         
-        return decrypted_message;
+        return decryptedMessage;
     }
 
     public static void main(String[] args) {
