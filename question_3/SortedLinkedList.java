@@ -106,7 +106,8 @@ public class SortedLinkedList implements SortedList {
     public Node get(int index) {
         // If index is less than 0 or bigger than size - 1, return null
         if(index < 0 || index > (size() - 1)){
-            return null;
+            Node empty = new Node("null");
+            return empty;
         }
 
         // Return the node of the doubly linked list at the specified index
@@ -132,8 +133,11 @@ public class SortedLinkedList implements SortedList {
         Node curr = this.head;
 
         while(curr.getNext() != null){
-            if(curr.getString().equalsIgnoreCase(string)){
-                return true;
+            // Skip at head
+            if(!curr.getString().equalsIgnoreCase("head")){
+                if(curr.getString().equalsIgnoreCase(string)){
+                    return true;
+                }
             }
 
             curr = curr.getNext();
@@ -150,6 +154,7 @@ public class SortedLinkedList implements SortedList {
         } else{
             Node next = this.head.getNext().getNext();
             this.head.setNext(next);
+            next.setPrev(this.head);
         }
         return true;
     }
@@ -190,7 +195,9 @@ public class SortedLinkedList implements SortedList {
                 Node next = curr.getNext();
 
                 prev.setNext(next);
-                next.setPrev(prev);
+                if(next != null){
+                    next.setPrev(prev);
+                }
 
                 break;
             }
@@ -198,6 +205,17 @@ public class SortedLinkedList implements SortedList {
             curr = curr.getNext();
             count++;
         }
+
+        if(count == index){
+            Node prev = curr.getPrev();
+            Node next = curr.getNext();
+
+            prev.setNext(next);
+            if(next != null){
+                next.setPrev(prev);
+            }
+        }
+
         return true;
     }
 
@@ -207,17 +225,37 @@ public class SortedLinkedList implements SortedList {
         Node curr = this.head;
 
         while(curr.getNext() != null){
+            // Skip at head
+            if(!curr.getString().equalsIgnoreCase("head")){
+                if(curr.getString().equalsIgnoreCase(string)){
+                    Node prev = curr.getPrev();
+                    Node next = curr.getNext();
+
+                    prev.setNext(next);
+                    if(next != null){
+                        next.setPrev(prev);
+                    }
+
+                    return true;
+                }
+            }
+
+            curr = curr.getNext();
+        }
+
+        // Skip at head
+        if(!curr.getString().equalsIgnoreCase("head")){
             if(curr.getString().equalsIgnoreCase(string)){
                 Node prev = curr.getPrev();
                 Node next = curr.getNext();
 
                 prev.setNext(next);
-                next.setPrev(prev);
+                if(next != null){
+                    next.setPrev(prev);
+                }
 
                 return true;
             }
-
-            curr = curr.getNext();
         }
 
         return false;
@@ -251,6 +289,12 @@ public class SortedLinkedList implements SortedList {
                 if(!curr.getString().equalsIgnoreCase("head")){
                     // If curr is bigger than next, switch them
                     if(curr.getString().compareToIgnoreCase(next.getString()) > 0){
+
+                        // Curr points to future next, future next back to curr
+                        curr.setNext(next.getNext());
+                        if(next.getNext() != null){
+                            next.getNext().setPrev(curr);
+                        }
 
                         // Prev points to next, next back to prev
                         prev.setNext(next);
@@ -301,6 +345,12 @@ public class SortedLinkedList implements SortedList {
                     // If curr is smaller than next, switch them
                     if(curr.getString().compareToIgnoreCase(next.getString()) < 0){
 
+                        // Curr points to future next, future next back to curr
+                        curr.setNext(next.getNext());
+                        if(next.getNext() != null){
+                            next.getNext().setPrev(curr);
+                        }
+
                         // Prev points to next, next back to prev
                         prev.setNext(next);
                         next.setPrev(prev);
@@ -334,8 +384,9 @@ public class SortedLinkedList implements SortedList {
 
             curr = curr.getNext();
         }
-
-        System.out.println(curr.getString());
+        if(!curr.getString().equalsIgnoreCase("head")){
+            System.out.println(curr.getString());
+        }
     }
 
     public static void main(String[] args) {
@@ -349,8 +400,44 @@ public class SortedLinkedList implements SortedList {
         testing.add(charlie);
 
         testing.print();
+        System.out.println("________");
+
+        testing.orderDescending();
+
+        testing.print();
+        System.out.println("________");
+
+        testing.orderAscending();
+
+        testing.print();
+        System.out.println("________");
+
+        System.out.println(testing.getFirst().getString());
+        System.out.println("________");
+
+        System.out.println(testing.getLast().getString());
+        System.out.println("________");
+
+        System.out.println(testing.get(2).getString());
+        System.out.println("________");
+
+        System.out.println(testing.isPresent("Bravo"));
+        System.out.println("________");
 
         System.out.println(testing.size());
+        System.out.println("________");
+
+        testing.removeFirst();
+        testing.print();
+        System.out.println("________");
+
+        testing.removeLast();
+        testing.print();
+        System.out.println("________");
+
+        testing.remove("Bravo");
+        testing.print();
+        System.out.println("________");
 
     }
     
