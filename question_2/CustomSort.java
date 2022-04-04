@@ -11,7 +11,7 @@ public class CustomSort implements SortingInterface {
 	public void setValues(ArrayList<Double> values){
 
         // Set values to custom sorted array list
-        this.customSorted = new ArrayList<>(values);
+        this.customSorted = values;
 
         // Sort the values using the sort function
         this.sort();
@@ -109,21 +109,17 @@ public class CustomSort implements SortingInterface {
 
         ArrayList<Double> values = new ArrayList<Double>();
 
-        values.add(13.9);
-        values.add(2.3);
-        values.add(4.3);
-        values.add(9.2);
-        values.add(5.1);
+        values.add(9.0);
+        values.add(8.0);
+        values.add(7.0);
+        values.add(6.0);
+        values.add(5.0);
+        values.add(4.0);
+        values.add(3.0);
+        values.add(2.0);
+        values.add(1.0);
 
         gapSort.setValues(values);
-
-        gapSort.printAll();
-
-        gapSort.remove(3);
-
-        gapSort.printAll();
-
-        gapSort.add(2.345);
 
         gapSort.printAll();
 
