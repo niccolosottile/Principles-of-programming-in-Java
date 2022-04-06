@@ -11,7 +11,7 @@ public class PopThread implements Runnable {
 
     // Used to apply sinchronized lock on preceding file number
     private static int precedingFile = 1;
-    private final Object lock = new Object();
+    private static Object lock = new Object();
 
     private ArrayList<String> filenames;
     private final int numberFiles;
@@ -41,13 +41,13 @@ public class PopThread implements Runnable {
     @Override
     public void run() {
         synchronized(lock)  {
+            System.out.println("ns1");
             // If all the files have been processed, close thread
             if (precedingFile == (numberFiles + 1)) {
                 return;
             }
 
             Boolean precedingFound;
-
             do {
                 precedingFound = false;
 
@@ -78,9 +78,9 @@ public class PopThread implements Runnable {
                         try (BufferedReader fileReader = new BufferedReader(new FileReader(filename));) {
 
                             File resultFile = new File("question_4/result.txt");
-                            resultFile.createNewFile(); // Works both if file already exists or not
+                            resultFile.createNewFile(); // Only works if it doesn't exist already
 
-                            FileWriter resultWriter = new FileWriter("question_4/result.txt");
+                            FileWriter resultWriter = new FileWriter("question_4/result.txt", true);
 
                             // Read and write line by line
                             while ((currentLine = fileReader.readLine()) != null) {
