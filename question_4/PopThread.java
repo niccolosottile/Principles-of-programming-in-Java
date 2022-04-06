@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class PopThread implements Runnable {
 
     // Used to apply sinchronized lock on preceding file number
-    private int precedingFile = 1;
+    private static int precedingFile = 1;
     private final Object lock = new Object();
 
     private ArrayList<String> filenames;
@@ -46,63 +46,68 @@ public class PopThread implements Runnable {
                 return;
             }
 
-            // Read each file's label (guard for inexistent file)
-            for (String filename: this.filenames) {
+            Boolean precedingFound;
 
-                // Read label from file
-                String label, currentLine;
-                label = currentLine = "";
+            do {
+                precedingFound = false;
 
-                try (BufferedReader labelReader = new BufferedReader(new FileReader(filename))) {
+                // Read each file's label (guard for inexistent file)
+                for (String filename: this.filenames) {
 
-                    while ((currentLine = labelReader.readLine()) != null) {
-                        label = currentLine;
-                    }
+                    // Read label from file
+                    String label, currentLine;
+                    label = currentLine = "";
 
-                } catch (IOException e) {
-                    continue;
-                }
+                    try (BufferedReader labelReader = new BufferedReader(new FileReader(filename))) {
 
-                // Extract file number from label (converting it into an int)
-                int fileNumber = Integer.parseInt(label.substring(1, 4));
-
-                // If label for preceding file is found
-                if (fileNumber == precedingFile) {
-
-                    // Copy file into result file (guard for inexistent file)
-                    try (BufferedReader fileReader = new BufferedReader(new FileReader(filename));) {
-
-                        File resultFile = new File("question_4/result.txt");
-                        resultFile.createNewFile(); // Works both if file already exists or not
-
-                        FileWriter resultWriter = new FileWriter("question_4/result.txt");
-
-                        // Read and write line by line
-                        while ((currentLine = fileReader.readLine()) != null) {
-                            resultWriter.write(currentLine);
+                        while ((currentLine = labelReader.readLine()) != null) {
+                            label = currentLine;
                         }
 
-                        resultWriter.close();
-
-                        // Increase preceding file number
-                        precedingFile++;
-
-                        // Resume other threads' search for preceding file
-                        lock.notifyAll();
-
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        continue;
+                    }
+
+                    // Extract file number from label (converting it into an int)
+                    int fileNumber = Integer.parseInt(label.substring(1, 4));
+
+                    // If label for preceding file is found
+                    if (fileNumber == precedingFile) {
+
+                        // Copy file into result file (guard for inexistent file)
+                        try (BufferedReader fileReader = new BufferedReader(new FileReader(filename));) {
+
+                            File resultFile = new File("question_4/result.txt");
+                            resultFile.createNewFile(); // Works both if file already exists or not
+
+                            FileWriter resultWriter = new FileWriter("question_4/result.txt");
+
+                            // Read and write line by line
+                            while ((currentLine = fileReader.readLine()) != null) {
+                                resultWriter.write(currentLine + '\n');
+                            }
+
+                            resultWriter.close();
+
+                            precedingFound = true; // Mark flag to continue search
+                            precedingFile++; // Increase preceding file number
+                            System.out.println("Thread: " + this + "has notified all");
+                            lock.notifyAll(); // Resume other threads' search for preceding file
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-            }
+            } while (precedingFound);
 
-            // Wait for other thread to find preceding file
+            // Wait so that other threads can find preceding file
             try {
+                System.out.println("Thread: " + this + "is waiting");
                 lock.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-        }        
+        }    
     }
 }
