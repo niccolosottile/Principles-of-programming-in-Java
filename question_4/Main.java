@@ -10,12 +10,12 @@ public class Main {
     public static void main(String[] args){
     	
         ArrayList<String> filesOne = new ArrayList<String>();
-        filesOne.add("1831-06-01.txt");
-        filesOne.add("2003-08-27.txt");
+        filesOne.add("question_4/1831-06-01.txt");
+        filesOne.add("question_4/2003-08-27.txt");
 
         ArrayList<String> filesTwo = new ArrayList<String>();
-        filesTwo.add("1961-04-12.txt");
-        filesTwo.add("1972-12-11.txt");
+        filesTwo.add("question_4/1961-04-12.txt");
+        filesTwo.add("question_4/1972-12-11.txt");
 
         int numAttempts = 1;
 
@@ -33,7 +33,7 @@ public class Main {
             } catch (InterruptedException e){
                 e.printStackTrace();
             }
-            try (BufferedReader br = new BufferedReader(new FileReader("result.txt"))){
+            try (BufferedReader br = new BufferedReader(new FileReader("question_4/result.txt"))){
                 String line;
                 while ((line = br.readLine()) != null){
                     System.out.println(line);
