@@ -143,6 +143,12 @@ public class SortedLinkedList implements SortedList {
             curr = curr.getNext();
         }
 
+        if(!curr.getString().equalsIgnoreCase("head")){
+            if(curr.getString().equalsIgnoreCase(string)){
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -154,7 +160,9 @@ public class SortedLinkedList implements SortedList {
         } else{
             Node next = this.head.getNext().getNext();
             this.head.setNext(next);
-            next.setPrev(this.head);
+            if(next != null){
+                next.setPrev(this.head);
+            }
         }
         return true;
     }
