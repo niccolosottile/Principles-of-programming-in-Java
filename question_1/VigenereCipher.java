@@ -1,4 +1,4 @@
-package question_1;
+package vigenere_cipher;
 
 // Importing useful packages
 import java.io.FileReader;
