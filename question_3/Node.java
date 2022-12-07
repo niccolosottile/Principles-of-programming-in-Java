@@ -1,13 +1,5 @@
 package question_3;
 
-/**
-* Node class for use with the CM10228: Principles of Programming 2 coursework.
-* 
-* This should not be modified by the student.
-* 
-* @author		Christopher Clarke
-* @version		1.0	
-*/
 public class Node {
 	private String name;
 	private Node prev;
