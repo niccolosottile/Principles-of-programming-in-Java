@@ -1,1 +1,2 @@
-# pop-2-coursework-2
+# Principles of programming in Java
+
