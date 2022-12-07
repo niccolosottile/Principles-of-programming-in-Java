@@ -1,13 +1,5 @@
-package question_1;
+package vigenere_cipher;
 
-/**
-* Cipher interface for use with the CM10228: Principles of Programming 2 coursework.
-* 
-* This should not be modified by the student.
-* 
-* @author		Christopher Clarke
-* @version		1.0
-*/
 public interface Cipher {
 	
 	/**
