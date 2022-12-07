@@ -1,13 +1,5 @@
 package question_2;
 
-/**
-* Sorting interface for use with the CM10228: Principles of Programming 2 coursework.
-*
-* This should not be modified by the student.
-*
-* @author		Christopher Clarke
-* @version		1.0
-*/
 import java.util.ArrayList;
 
 public interface SortingInterface {
