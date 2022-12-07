@@ -1,13 +1,5 @@
 package question_3;
 
-/**
-* SortedList interface for use with the CM10228: Principles of Programming 2 coursework.
-*
-* This should not be modified by the student.
-*
-* @author		Christopher Clarke
-* @version		1.0
-*/
 public interface SortedList {
 
 	/**
